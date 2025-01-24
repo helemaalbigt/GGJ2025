@@ -1,0 +1,84 @@
+//Maya ASCII 2023 scene
+//Name: bubble_msh.ma
+//Last modified: Fri, Jan 24, 2025 09:04:09 PM
+//Codeset: 1252
+requires maya "2023";
+requires "mtoa" "5.1.0";
+currentUnit -l centimeter -a degree -t film;
+fileInfo "application" "maya";
+fileInfo "product" "Maya 2023";
+fileInfo "version" "2023";
+fileInfo "cutIdentifier" "202202161415-df43006fd3";
+fileInfo "osv" "Windows 11 Home v2009 (Build: 22631)";
+fileInfo "UUID" "C93B55DB-4011-CF32-D96F-0BAC6C285735";
+createNode transform -n "bubble_msh";
+	rename -uid "378B4A24-44AC-4CF5-E089-E6BADA343C1A";
+	setAttr ".t" -type "double3" 0 9.6581154524573591 0 ;
+	setAttr ".s" -type "double3" 7.9097200158376797 7.9097200158376797 7.9097200158376797 ;
+createNode mesh -n "bubble_mshShape" -p "bubble_msh";
+	rename -uid "5DBE4F3F-4F6B-6F47-8335-3FAFD5716575";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".pv" -type "double2" 0.50000008940696716 0.5 ;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dr" 1;
+createNode polySmoothFace -n "polySmoothFace1";
+	rename -uid "28CA4DB0-4958-4E85-4051-86A92C7C44DF";
+	setAttr ".ics" -type "componentList" 1 "f[*]";
+	setAttr ".sdt" 2;
+	setAttr ".suv" yes;
+	setAttr ".ps" 0.10000000149011612;
+	setAttr ".ro" 1;
+	setAttr ".ma" yes;
+	setAttr ".m08" yes;
+createNode polySphere -n "polySphere1";
+	rename -uid "31EDF40D-4B3A-AF42-D4FE-72A876F45934";
+select -ne :time1;
+	setAttr ".o" 0;
+select -ne :hardwareRenderingGlobals;
+	setAttr ".otfna" -type "stringArray" 22 "NURBS Curves" "NURBS Surfaces" "Polygons" "Subdiv Surface" "Particles" "Particle Instance" "Fluids" "Strokes" "Image Planes" "UI" "Lights" "Cameras" "Locators" "Joints" "IK Handles" "Deformers" "Motion Trails" "Components" "Hair Systems" "Follicles" "Misc. UI" "Ornaments"  ;
+	setAttr ".otfva" -type "Int32Array" 22 0 1 1 1 1 1
+		 1 1 1 0 0 0 0 0 0 0 0 0
+		 0 0 0 0 ;
+	setAttr ".fprt" yes;
+select -ne :renderPartition;
+	setAttr -s 2 ".st";
+select -ne :renderGlobalsList1;
+select -ne :defaultShaderList1;
+	setAttr -s 5 ".s";
+select -ne :postProcessList1;
+	setAttr -s 2 ".p";
+select -ne :defaultRenderUtilityList1;
+select -ne :defaultRenderingList1;
+select -ne :defaultTextureList1;
+select -ne :lambert1;
+select -ne :initialShadingGroup;
+	setAttr ".ro" yes;
+select -ne :initialParticleSE;
+	setAttr ".ro" yes;
+select -ne :initialMaterialInfo;
+select -ne :defaultRenderGlobals;
+	setAttr ".ren" -type "string" "arnold";
+select -ne :defaultResolution;
+	setAttr ".pa" 1;
+select -ne :defaultColorMgtGlobals;
+	setAttr ".cfe" yes;
+	setAttr ".cfp" -type "string" "<MAYA_RESOURCES>/OCIO-configs/Maya2022-default/config.ocio";
+	setAttr ".vtn" -type "string" "ACES 1.0 SDR-video (sRGB)";
+	setAttr ".vn" -type "string" "ACES 1.0 SDR-video";
+	setAttr ".dn" -type "string" "sRGB";
+	setAttr ".wsn" -type "string" "ACEScg";
+	setAttr ".otn" -type "string" "ACES 1.0 SDR-video (sRGB)";
+	setAttr ".potn" -type "string" "ACES 1.0 SDR-video (sRGB)";
+select -ne :hardwareRenderGlobals;
+	setAttr ".ctrs" 256;
+	setAttr ".btrs" 512;
+connectAttr "polySmoothFace1.out" "bubble_mshShape.i";
+connectAttr "polySphere1.out" "polySmoothFace1.ip";
+connectAttr "bubble_mshShape.iog" ":initialShadingGroup.dsm" -na;
+// End of bubble_msh.ma
