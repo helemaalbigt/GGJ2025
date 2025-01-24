@@ -5,6 +5,7 @@ using UnityEngine;
 public class BubbleForces : MonoBehaviour 
 {
     public Rigidbody rigidbody;
+    public ConstantForce constantForce;
     public AnimationCurve forceCurve;
     public float maxForce = 20f;
     
@@ -18,6 +19,6 @@ public class BubbleForces : MonoBehaviour
     public void ApplyForce(Vector3 direction, float strengthFactor) {
         var strength = forceCurve.Evaluate(strengthFactor);
         var force = direction.normalized * strength;
-        rigidbody.AddForce(force);
+        constantForce.force = force;
     }
 }
