@@ -946,6 +946,7 @@ GameObject:
   - component: {fileID: 953032993}
   - component: {fileID: 953032992}
   - component: {fileID: 953032997}
+  - component: {fileID: 953032998}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -961,8 +962,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953032991}
   serializedVersion: 4
-  m_Mass: 0.0000001
-  m_Drag: 46
+  m_Mass: 1
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -975,11 +976,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!135 &953032993
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1060,7 +1061,7 @@ Transform:
   m_GameObject: {fileID: 953032991}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2976812, y: 0.5819572, z: 1.0382879}
+  m_LocalPosition: {x: 0.2976812, y: 2, z: 1.0382879}
   m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1078,8 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a21b11564ab1c4f85ff70322bc20e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
-  constantForce: {fileID: 0}
+  rigidbody: {fileID: 953032992}
   forceCurve:
     serializedVersion: 2
     m_Curve:
@@ -1104,8 +1104,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxForce: 1e-21
+  maxForce: 5
+  gravity: 0.03
+  drag: 0.03
   _debugWindStrength: 0
+--- !u!114 &953032998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953032991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a17f055754edd43b01efd4b362b021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mouth: {fileID: 1630107354}
+  _bubbleForces: {fileID: 953032997}
 --- !u!1 &1029770139
 GameObject:
   m_ObjectHideFlags: 0
