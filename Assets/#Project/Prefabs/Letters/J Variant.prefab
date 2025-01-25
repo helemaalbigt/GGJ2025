@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 916390113392559670, guid: afbbfd9a65f5bf740b40bd2358586586, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -1434902202865794022, guid: 5d264cafdb72652489e430f865d9de33, type: 3}
+      objectReference: {fileID: -1434902202865794022, guid: 6b887525783363249ae98a81198f2b11, type: 3}
     - target: {fileID: 2835052169559765445, guid: afbbfd9a65f5bf740b40bd2358586586, type: 3}
       propertyPath: m_Name
       value: J Variant
@@ -56,7 +56,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
