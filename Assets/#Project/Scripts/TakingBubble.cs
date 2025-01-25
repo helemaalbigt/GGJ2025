@@ -9,31 +9,30 @@ public class TakingBubble : MonoBehaviour
     public Material BubbleMaterial;
     public AudioSource audioSource;
 
-    public float enumIndex;
-    public enum face
-    {
-        NORMAL,
-        TALKING
 
+    public Texture textureWhenPlaying; 
+    public Texture textureWhenNotPlaying; 
+
+    private Renderer objectRenderer; 
+
+    void Start()
+    {
+       
+        objectRenderer = GetComponent<Renderer>();
     }
 
-
-    private void Update()
+    void Update()
     {
-        BubbleMaterial.SetFloat("_FACE", enumIndex);
-
-        //if (audioSource.isPlaying)
-        //{
-        //    Debug.Log("playing audio");
-
-        //    BubbleMaterial.SetInt("_FACE", 1);
+       
+        if (audioSource.isPlaying)
+        {
+           
+            objectRenderer.material.mainTexture = textureWhenPlaying;
+        }
+        else
+        {
             
-
-        //}
-        //else
-        //{
-        //    // Otherwise, set the face to NORMAL
-        //    BubbleMaterial.SetInt("_FACE", 0);
-        //}
+            objectRenderer.material.mainTexture = textureWhenNotPlaying;
+        }
     }
 }
