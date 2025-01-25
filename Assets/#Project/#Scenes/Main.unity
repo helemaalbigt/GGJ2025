@@ -237,14 +237,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubbleDescriptions:
+  - {fileID: 11400000, guid: 3c96af2ebfe69ff40b8acc684d8faa3b, type: 2}
   - {fileID: 11400000, guid: 2f1229d096385074dbffb4a93213960b, type: 2}
   - {fileID: 11400000, guid: d69b1154a1f271d4886293840507c08b, type: 2}
-  - {fileID: 11400000, guid: 3c96af2ebfe69ff40b8acc684d8faa3b, type: 2}
   bubbles: []
   spawnFrequency: 15
   _bubblePrefab: {fileID: 6842940867180379408, guid: 63cfe84b972b781408f89ac0c8ed5de7, type: 3}
   _head: {fileID: 1630107354}
   _titleSpawner: {fileID: 463681125}
+  _debugIsTalking: 0
 --- !u!1 &285347845
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Android;
@@ -9,9 +10,12 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour {
 
     public event Action<State> OnStateChanged;
-
     public event Action<Bubble> OnBubbleSpawned;
+	public Action OnAnyBubbleSpawned;
+
+
 	public BubbleDescription[] bubbleDescriptions;
+	private List<BubbleDescription> _leftoverBubbleDescriptions;
 
 	private State _state;
     public State state {
@@ -36,8 +40,10 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        //get mic permissions
-        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        _leftoverBubbleDescriptions = bubbleDescriptions.ToList();
+
+		//get mic permissions
+		if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
             Permission.RequestUserPermission(Permission.Microphone);
 
         StartCoroutine(WaitToStart());
@@ -81,7 +87,7 @@ public class GameManager : MonoBehaviour {
             foreach (var bubble in bubbles) {
                 if (bubble.colliderManager.HasPopped())
                     anyBubblePopped = true;
-                
+
                 if(Input.GetKeyDown(KeyCode.Space))
                     anyBubblePopped = true;
             }
@@ -94,6 +100,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator GameOver() {
         state = State.gameOver;
+
+		// wait untill all bubbles are done talking
+		while (IsAnyBubbleTalking())
+            yield return null;
 
         //pop all bubbles
         for (int i = 0; i < bubbles.Count; i++) {
@@ -140,13 +150,23 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SpawnBubble(bool spawnInFrontOfPlayer = false) {
-        var spawnPose = GetSpawnPose(!spawnInFrontOfPlayer);
+
+		var spawnPose = GetSpawnPose(!spawnInFrontOfPlayer);
         var firstBubble = Instantiate(_bubblePrefab, spawnPose.position, spawnPose.rotation);
         firstBubble.Setup(_head);
 
 		bubbles.Add(firstBubble);
 
-        firstBubble.bubbleDescription = bubbleDescriptions[Random.Range(0, bubbleDescriptions.Length)];
+        // pick random description and remove it from the list so its not picked again.
+        int bubleDescriptionIndex = Random.Range(0, _leftoverBubbleDescriptions.Count);
+		firstBubble.bubbleDescription = bubbleDescriptions[bubleDescriptionIndex];
+		_leftoverBubbleDescriptions.RemoveAt(bubleDescriptionIndex);
+        // if all descriptions have been used, then just reuse all of them,
+        // maybe its better to just have a max amount of bubble instead? :)
+        if (_leftoverBubbleDescriptions.Count == 0)
+			_leftoverBubbleDescriptions = bubbleDescriptions.ToList();
+
+		OnAnyBubbleSpawned?.Invoke();
 		OnBubbleSpawned?.Invoke(firstBubble);
 	}
     
@@ -158,9 +178,40 @@ public class GameManager : MonoBehaviour {
         return new Pose(pos, rot);
     }
 
-    public enum State {
+    public bool IsAnyBubbleTalking()
+    {
+		// check if any bubble is talking
+		for (int i = 0; i < bubbles.Count; i++)
+		{
+			if (bubbles[i].IsTalking)
+			{
+				return true;
+			}
+		}
+
+        return false;
+	}
+
+    public Bubble GetSurvivingBubble()
+    {
+        foreach (var bbl in bubbles)
+        {
+            if(!bbl.colliderManager.HasPopped())
+                return bbl;
+        }
+        return null;
+    }
+
+
+	public enum State {
         waitToStart,
         playing,
         gameOver
     }
+
+    public bool _debugIsTalking;
+	private void Update()
+	{
+		_debugIsTalking = IsAnyBubbleTalking();
+	}
 }
