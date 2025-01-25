@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2011895432989601509, guid: 9c8d0587a34e8f645bb8f46ca26c06fa, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -7393420385775474653, guid: 834df25cf23f6d84a8ae1637094fa8cd, type: 3}
+      objectReference: {fileID: -7393420385775474653, guid: 5d264cafdb72652489e430f865d9de33, type: 3}
     - target: {fileID: 3459955431993874710, guid: 9c8d0587a34e8f645bb8f46ca26c06fa, type: 3}
       propertyPath: m_Name
       value: G Variant

@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 493681384944601902, guid: 2ead7b718d454204e94bde1217fea5a5, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -7746497135072881621, guid: 9bc9a5eace284d145bcb92dc173720e6, type: 3}
+      objectReference: {fileID: -7746497135072881621, guid: cdfad54571a3a8042a71580b4b98c0f6, type: 3}
     - target: {fileID: 3257900799101402333, guid: 2ead7b718d454204e94bde1217fea5a5, type: 3}
       propertyPath: m_Name
       value: E Variant
