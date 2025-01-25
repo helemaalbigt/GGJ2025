@@ -22,7 +22,11 @@ public class TitleSpawner : MonoBehaviour {
         _parent.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
     }
 
-    public void SpawnTitle() {
+    public void SpawnTitle(string title) {
+        
+    }
+
+    public void Clear() {
         
     }
 }
