@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour
 {
     public GameManager gameManager;
 
-
     [Tooltip("How often does the bubble talk")]
     public float SpeakInterval = 5;
     public float SpeakIntervalRandom = 2;
@@ -73,8 +72,7 @@ public class AudioManager : MonoBehaviour
 		else
 			PlayRandomClip(bubble, bubble.bubbleDescription.NextIntroClips); // Hi without intro
 
-		// greet others when they spawn
-        bubble.SayHiToOtherBubbles = () => { StartCoroutine(PlayRandomClipDelayed(bubble, bubble.bubbleDescription.GreetingClips, true)); };
+        StartCoroutine(SayHiToOtherBubbles(bubble));
 
 		// Nearing the floor/death
 		bubble.colliderManager.OnBubbleNearingSurface += () => 
@@ -97,18 +95,39 @@ public class AudioManager : MonoBehaviour
 		bubble.audioSource.PlayOneShot(clips[randomIndex]);
 	}
 
-	IEnumerator PlayRandomClipDelayed(Bubble bubble, AudioClip[] clips, bool interrupCurrentClip = false)
+
+	IEnumerator SayHiToOtherBubbles(Bubble spawnedBubble)
 	{
-		if (interrupCurrentClip)
-			bubble.audioSource.Stop();
+        if (_bubbleInDistress)
+		{
+			InterruptAllBubbles(spawnedBubble);
+		}
 
 		// wait for other bubble(s) to stop talking.
-		while (gameManager.IsAnyBubbleTalking()) 
+		while (spawnedBubble.IsTalking)
+		{
+			yield return null;
+		}
+
+		foreach (var bubble in gameManager.bubbles)
         {
-            yield return null;
+            if(bubble != spawnedBubble)
+			{
+				PlayRandomClip(bubble, bubble.bubbleDescription.GreetingClips);
+				break;
+			}
         }
 
-        PlayRandomClip(bubble, clips);
 	}
 
+	private void InterruptAllBubbles(Bubble spawnedBubble)
+	{
+		foreach (var bubble in gameManager.bubbles)
+		{
+			if (bubble != spawnedBubble)
+			{
+				bubble.audioSource.Stop();
+			}
+		}
+	}
 }

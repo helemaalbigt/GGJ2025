@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     [Header("Asset/Scene References")] 
     public Bubble _bubblePrefab;
     public Transform _head;
+    public TitleSpawner _titleSpawner;
 
     void Start()
     {
@@ -52,8 +53,8 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator WaitToStart() {
         state = State.waitToStart;
-        
-        //TODO: spawn title
+
+        yield return StartCoroutine(_titleSpawner.SpawnTitle());
 
         //Check for blow to start
         yield return CheckForBlow();
@@ -63,6 +64,9 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator Playing() {
         state = State.playing;
+        
+        //Remove title
+        _titleSpawner.Clear();
         
         //Spawn first bubble
         bubbles.Clear();
@@ -150,7 +154,6 @@ public class GameManager : MonoBehaviour {
 		var spawnPose = GetSpawnPose(!spawnInFrontOfPlayer);
         var firstBubble = Instantiate(_bubblePrefab, spawnPose.position, spawnPose.rotation);
         firstBubble.Setup(_head);
-        firstBubble.SubscribeToEvents(this);
 
 		bubbles.Add(firstBubble);
 
@@ -180,7 +183,7 @@ public class GameManager : MonoBehaviour {
 		// check if any bubble is talking
 		for (int i = 0; i < bubbles.Count; i++)
 		{
-			if (bubbles[i].audioSource.isPlaying)
+			if (bubbles[i].IsTalking)
 			{
 				return true;
 			}
