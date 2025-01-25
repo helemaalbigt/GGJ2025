@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Android;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
 
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour {
             //TODO: spawn new bubble every X seconds
 
             if (Time.unscaledTime - startTime > spawnFrequency) {
-                SpawnBubble();
+                SpawnBubble(true);
                 startTime = Time.unscaledTime;
             }
             
@@ -90,7 +91,7 @@ public class GameManager : MonoBehaviour {
         //pop all bubbles
         for (int i = 0; i < bubbles.Count; i++) {
             var bubble = bubbles[i];
-            bubble.colliderManager.ForcePopBubble();
+            bubble.colliderManager.ForcePopBubbleImmediate();
             yield return new WaitForSeconds(0.3f);
         }
         
@@ -121,7 +122,7 @@ public class GameManager : MonoBehaviour {
                 timeBlown += Time.unscaledDeltaTime;
             }
 
-            if (timeBlown > 0.5f)
+            if (timeBlown > 0.3f)
                 hasBlown = true;
             
             if(Input.GetKeyDown(KeyCode.Space))
@@ -131,16 +132,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void SpawnBubble() {
-        var spawnPose = GetSpawnPose();
+    private void SpawnBubble(bool spawnInFrontOfPlayer = false) {
+        var spawnPose = GetSpawnPose(!spawnInFrontOfPlayer);
         var firstBubble = Instantiate(_bubblePrefab, spawnPose.position, spawnPose.rotation);
         firstBubble.Setup(_head);
         
         bubbles.Add(firstBubble);
     }
     
-    private Pose GetSpawnPose() {
-        var pos = _head.position + Vector3.ProjectOnPlane(_head.forward, Vector3.up).normalized * 0.4f + Vector3.up * 0.4f;
+    private Pose GetSpawnPose(bool randomPos = true) {
+        var randomOffset = randomPos ? Random.Range(-0.4f, 0.4f) : 0;
+        var pos = _head.position + Vector3.ProjectOnPlane(_head.forward, Vector3.up).normalized * 0.5f + Vector3.up * 0.5f + Vector3.ProjectOnPlane(_head.right, Vector3.up).normalized * randomOffset;
         var posToHeadXZ = Vector3.ProjectOnPlane(pos - _head.position, Vector3.up).normalized;
         var rot = Quaternion.LookRotation(posToHeadXZ, Vector3.up);
         return new Pose(pos, rot);

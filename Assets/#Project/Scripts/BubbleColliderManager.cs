@@ -25,14 +25,14 @@ public class BubbleColliderManager : MonoBehaviour {
       return _bubblePopped;
    }
 
-   public void ForcePopBubble() {
+   public void ForcePopBubbleImmediate() {
       if(!_bubblePopped)
-         StartCoroutine(PlayPopEffects());
+         StartCoroutine(PlayPopEffects(0f));
    }
 
-   private IEnumerator PlayPopEffects() {
+   private IEnumerator PlayPopEffects(float timeBeforePop = 1f) {
       //let it rest on the surface a bit
-      yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(timeBeforePop);
       
       //todo: play audio
       
