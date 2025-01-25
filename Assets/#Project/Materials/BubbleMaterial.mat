@@ -25,7 +25,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _FACE_SCARED
+  - _FACE_WEEE
   m_InvalidKeywords:
   - _FACE_SAD
   m_LightmapFlags: 4
@@ -139,7 +139,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FACE: 0
+    - _FACE: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
