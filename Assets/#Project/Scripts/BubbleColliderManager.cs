@@ -6,10 +6,11 @@ public class BubbleColliderManager : MonoBehaviour {
    
    public event Action OnBubbleTouchedSurface;
    public event Action OnBubblePopped;
-
+   public GameObject POP;
    public Renderer renderer;
-   
-   private bool _bubblePopped;
+
+
+    private bool _bubblePopped;
 
    private void OnCollisionEnter(Collision collision) {
       if (!_bubblePopped) {
@@ -18,11 +19,17 @@ public class BubbleColliderManager : MonoBehaviour {
          OnBubbleTouchedSurface?.Invoke();
          
          StartCoroutine(PlayPopEffects());
-      }
+
+
+            //object value = Instantiate(POP, OnBubbleTouchedSurface.position, Quaternion.identity);
+
+        }
    }
 
    public bool HasPopped() {
       return _bubblePopped;
+
+
    }
 
    public void ForcePopBubbleImmediate() {
