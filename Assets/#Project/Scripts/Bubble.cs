@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class Bubble : MonoBehaviour {
     
     public BlowForce blowForce;
     public BubbleColliderManager colliderManager;
+    private GameManager _gameManager;
 
     private Transform _head;
     
@@ -31,4 +33,17 @@ public class Bubble : MonoBehaviour {
         var targetRotation = Quaternion.LookRotation(fwd, up);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 1.5f);
     }
+
+
+    public Action SayHiToOtherBubbles;
+    public void SubscribeToEvents(GameManager gameManager) 
+    {
+		_gameManager = gameManager;
+        _gameManager.OnAnyBubbleSpawned += SayHiToOtherBubbles;
+	}
+
+    public void OnDestroy()
+	{
+		_gameManager.OnAnyBubbleSpawned -= SayHiToOtherBubbles;
+	}
 }

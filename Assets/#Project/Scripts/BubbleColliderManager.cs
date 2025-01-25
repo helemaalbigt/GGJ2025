@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BubbleColliderManager : MonoBehaviour {
    
+   public event Action OnBubbleNearingSurface;
    public event Action OnBubbleTouchedSurface;
    public event Action OnBubblePopped;
 
@@ -11,7 +12,14 @@ public class BubbleColliderManager : MonoBehaviour {
    
    private bool _bubblePopped;
 
-   private void OnCollisionEnter(Collision collision) {
+   private Bubble _bubble;
+
+	private void Start()
+	{
+		_bubble = GetComponent<Bubble>();
+	}
+
+	private void OnCollisionEnter(Collision collision) {
       if (!_bubblePopped) {
          //todo: play touche surface audio
          
@@ -21,7 +29,32 @@ public class BubbleColliderManager : MonoBehaviour {
       }
    }
 
-   public bool HasPopped() {
+    public float DistanceCheck = .5f;
+    bool _isNearSurface;
+    Vector3 _direction;
+    Vector3 _prevPos;
+	private void FixedUpdate()
+	{
+        _direction = transform.position - _prevPos;
+		_prevPos = transform.position;
+		RaycastHit hit;
+        if (Physics.SphereCast(transform.position, .1f, _direction, out hit, DistanceCheck))
+        {
+            if (!_isNearSurface)
+            {
+                OnBubbleNearingSurface?.Invoke();
+                _isNearSurface = true;
+			}
+			Debug.DrawRay(transform.position, _direction * DistanceCheck, Color.red);
+		}
+        else
+        {
+            _isNearSurface = false;
+			Debug.DrawRay(transform.position, _direction * DistanceCheck, Color.green);
+		}
+	}
+
+	public bool HasPopped() {
       return _bubblePopped;
    }
 
@@ -33,9 +66,11 @@ public class BubbleColliderManager : MonoBehaviour {
    private IEnumerator PlayPopEffects(float timeBeforePop = 1f) {
       //let it rest on the surface a bit
       yield return new WaitForSeconds(timeBeforePop);
-      
-      //todo: play audio
-      
+
+        //waiting for audio to finish
+     while (_bubble.audioSource.isPlaying)
+         yield return null;
+
       //todo: do splash effect
       
       //dissolve bubble

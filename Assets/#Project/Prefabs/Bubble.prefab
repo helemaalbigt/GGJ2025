@@ -55,7 +55,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blowForce: {fileID: 831758911207532601}
   colliderManager: {fileID: 779768224568111494}
+  bubbleDescription: {fileID: 0}
   audioSource: {fileID: 3174385920905643089}
+  IsTalking: 0
 --- !u!33 &484084777165684545
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -268,6 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 8152574111748932001}
+  DistanceCheck: 0.5
 --- !u!82 &3174385920905643089
 AudioSource:
   m_ObjectHideFlags: 0

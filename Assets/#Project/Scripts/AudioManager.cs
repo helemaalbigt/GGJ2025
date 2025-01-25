@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
@@ -12,58 +14,101 @@ public class AudioManager : MonoBehaviour
     public float SpeakIntervalRandom = 2;
     private float SpeakTimer;
 
+    private bool _bubbleInDistress;
 
-    void Start()
+	void Start()
     {
         gameManager.OnBubbleSpawned += OnBubbleSpawned;
+		gameManager.OnStateChanged += GameManager_OnStateChanged;
+
+        // initial value for timer.
+        SpeakTimer = 3;
 	}
 
-    void Update()
+    private void GameManager_OnStateChanged(GameManager.State obj)
     {
-		if(gameManager.bubbles.Count != 0)
+        if (obj == GameManager.State.gameOver)
         {
-            // check if any bubble is talking
-            bool isAnyBubbleTalking = false;
-            for (int i = 0; i < gameManager.bubbles.Count; i++)
+            // Nearing the floor/death
+            Bubble survivingBubble = gameManager.GetSurvivingBubble();
+            if (survivingBubble != null) 
             {
-                if (!isAnyBubbleTalking)
-                {
-                    isAnyBubbleTalking = gameManager.bubbles[i].audioSource.isPlaying;
-                    break;
-                }
-			}
+    			PlayRandomClip(survivingBubble, survivingBubble.bubbleDescription.GameOverReactionClips, true);
+            }
 
-            if(!isAnyBubbleTalking ) 
-            {
-                SpeakTimer -= Time.deltaTime;
+            StopAllCoroutines();
+		}
+    }
 
-				if (SpeakTimer < 0)
-                {
-                    // pick random bubble
-                    int randomBubbleIndex = Random.Range(0, gameManager.bubbles.Count);
+	void Update()
+    {
+        if (gameManager.bubbles.Count == 0)
+            return;
 
-                    // make bubble talk
-                    Bubble bubble = gameManager.bubbles[randomBubbleIndex];
-					PlayRandomClip(bubble, bubble.bubbleDescription.JustFloatingClips);
+        if(gameManager.IsAnyBubbleTalking())
+			return;
 
-                    SpeakTimer = SpeakInterval + Random.Range(-SpeakIntervalRandom, SpeakIntervalRandom);
+        if (_bubbleInDistress)
+            return;
 
-				}
-			}
-        }
-	}
+        // Just floating talk
+		SpeakTimer -= Time.deltaTime;
+		if (SpeakTimer < 0)
+        {
+            // pick random bubble
+            int randomBubbleIndex = Random.Range(0, gameManager.bubbles.Count);
 
-    void OnBubbleSpawned(Bubble bubble)
+            // make that bubble talk
+            Bubble bubble = gameManager.bubbles[randomBubbleIndex];
+			PlayRandomClip(bubble, bubble.bubbleDescription.JustFloatingClips);
+
+            SpeakTimer = SpeakInterval + Random.Range(-SpeakIntervalRandom, SpeakIntervalRandom);
+		}
+    }
+
+	void OnBubbleSpawned(Bubble bubble)
 	{
-        PlayRandomClip(bubble, bubble.bubbleDescription.SpawnClips);
+		if (gameManager.bubbles.Count == 1)
+			PlayRandomClip(bubble, bubble.bubbleDescription.FirstIntroClips); // Hi with intro
+		else
+			PlayRandomClip(bubble, bubble.bubbleDescription.NextIntroClips); // Hi without intro
 
-        bubble.colliderManager.OnBubbleTouchedSurface += () => { PlayRandomClip(bubble, bubble.bubbleDescription.AboutToPopClips); };
-        bubble.colliderManager.OnBubblePopped += () => { PlayRandomClip(bubble, bubble.bubbleDescription.PopClips); };
+		// greet others when they spawn
+        bubble.SayHiToOtherBubbles = () => { StartCoroutine(PlayRandomClipDelayed(bubble, bubble.bubbleDescription.GreetingClips, true)); };
+
+		// Nearing the floor/death
+		bubble.colliderManager.OnBubbleNearingSurface += () => 
+        {
+            _bubbleInDistress = true; 
+            PlayRandomClip(bubble, bubble.bubbleDescription.nearDeathClips, true); 
+        };
+		// about to pop
+		bubble.colliderManager.OnBubbleTouchedSurface += () => { PlayRandomClip(bubble, bubble.bubbleDescription.AboutToPopClips); };
+		//pop
+		bubble.colliderManager.OnBubblePopped += () => { PlayRandomClip(bubble, bubble.bubbleDescription.PopClips); };
+
 	}
 
-    private void PlayRandomClip(Bubble bubble, AudioClip[] clips)
+	private void PlayRandomClip(Bubble bubble, AudioClip[] clips, bool interrupCurrentClip = false)
 	{
 		int randomIndex = Random.Range(0, clips.Length);
+        if(interrupCurrentClip)
+    		bubble.audioSource.Stop();
 		bubble.audioSource.PlayOneShot(clips[randomIndex]);
 	}
+
+	IEnumerator PlayRandomClipDelayed(Bubble bubble, AudioClip[] clips, bool interrupCurrentClip = false)
+	{
+		if (interrupCurrentClip)
+			bubble.audioSource.Stop();
+
+		// wait for other bubble(s) to stop talking.
+		while (gameManager.IsAnyBubbleTalking()) 
+        {
+            yield return null;
+        }
+
+        PlayRandomClip(bubble, clips);
+	}
+
 }
