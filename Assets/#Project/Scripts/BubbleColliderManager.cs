@@ -14,14 +14,15 @@ public class BubbleColliderManager : MonoBehaviour {
 
    private void OnCollisionEnter(Collision collision) {
       if (!_bubblePopped) {
-         //todo: play touche surface audio
-         
-         OnBubbleTouchedSurface?.Invoke();
-         
-         StartCoroutine(PlayPopEffects());
+            //todo: play touche surface audio
+            OnBubbleTouchedSurface?.Invoke();
 
 
-            //object value = Instantiate(POP, OnBubbleTouchedSurface.position, Quaternion.identity);
+            // Instantiate POP effect at the point of collision
+            Vector3 collisionPoint = collision.contacts[0].point;
+            Instantiate(POP, collisionPoint, Quaternion.identity);
+
+            StartCoroutine(PlayPopEffects());
 
         }
    }
@@ -35,18 +36,22 @@ public class BubbleColliderManager : MonoBehaviour {
    public void ForcePopBubbleImmediate() {
       if(!_bubblePopped)
          StartCoroutine(PlayPopEffects(0f));
+
+      POP.transform.position = transform.position;
    }
 
-   private IEnumerator PlayPopEffects(float timeBeforePop = 1f) {
+    private IEnumerator PlayPopEffects(float timeBeforePop = 1f) {
       //let it rest on the surface a bit
       yield return new WaitForSeconds(timeBeforePop);
-      
-      //todo: play audio
-      
-      //todo: do splash effect
-      
-      //dissolve bubble
-      var popTime = 0.12f;
+
+        //todo: play audio
+
+        //splash effect
+        Instantiate(POP, transform.position, Quaternion.identity);
+
+
+        //dissolve bubble
+        var popTime = 0.12f;
       var startTime = Time.unscaledTime;
       while (Time.unscaledTime - startTime < popTime) {
          var f = 1f - Mathf.Clamp01((Time.unscaledTime - startTime) / popTime);
