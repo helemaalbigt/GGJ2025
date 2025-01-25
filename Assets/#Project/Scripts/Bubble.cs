@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,10 @@ public class Bubble : MonoBehaviour {
 	public BubbleDescription bubbleDescription;
 
 	public AudioSource audioSource;
-    public bool IsTalking;
+
+    public bool IsTalking { 
+        get { return audioSource.isPlaying; } 
+    }
 
     public void Setup(Transform head) {
         _head = head;
