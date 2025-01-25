@@ -4,20 +4,47 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class BlowForce : MonoBehaviour {
-    public Transform _mouth;
     public BubbleForces _bubbleForces;
+
+    public AnimationCurve micInputToValueCurve; //smooth out the top values
+    public AnimationCurve distanceFalloffCurve;
+    public float maxInfluenceDistance = 0.7f;
+
+    private Transform _mouth;
+    
+    private const float MicMin = 0.0000001f;
+    private const float MicMax = 0.01f;
+
+    public void Setup(Transform head) {
+        _mouth = head;
+    }
     
     void Update()
     {
-        var trigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
-        SetBlowForce(trigger);
+        if(_mouth == null)
+            return;
+        
+        //Debug/accessibly input
+        var triggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
+        
+        var micValue = MicInput.GetLevelMax();
+        var micValueNormalized = (micValue - MicMin) / (MicMax - MicMin);
+
+        var value = Mathf.Max(triggerValue, micValueNormalized);
+        
+        SetBlowForce(value);
     }
 
     /// <summary>
     /// Set blow force for this frame. Value needs to be a value from 0 to 1
     /// </summary>
     public void SetBlowForce(float value) {
-        var forwardForce = _mouth.forward * value;
+        //distance force falloff
+        var distToBubble = Vector3.Distance(_mouth.position, transform.position);
+        var distFactor = Mathf.Clamp01(distToBubble / maxInfluenceDistance);
+        var force = distanceFalloffCurve.Evaluate(distFactor) * value;
+        
+        var forwardForce = _mouth.forward * force;
         var mouthToBubble = (transform.position - _mouth.position).normalized;
         var forceOnBubble = Vector3.Dot(forwardForce, mouthToBubble);
         

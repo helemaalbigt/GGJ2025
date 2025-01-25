@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BubbleForces : MonoBehaviour 
 {
     public Rigidbody rigidbody;
     //public ConstantForce constantForce;
     public AnimationCurve forceCurve;
-    public float maxForce = 20f;
     public float gravity = 9.81f;
-    public float drag = 0.03f;
-    
+
+
     [Header("Debug")] 
     [Range(0, 1)] public float _debugWindStrength;
     

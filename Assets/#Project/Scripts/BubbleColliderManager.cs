@@ -18,8 +18,16 @@ public class BubbleColliderManager : MonoBehaviour {
          OnBubbleTouchedSurface?.Invoke();
          
          StartCoroutine(PlayPopEffects());
-         _bubblePopped = true;
       }
+   }
+
+   public bool HasPopped() {
+      return _bubblePopped;
+   }
+
+   public void ForcePopBubble() {
+      if(!_bubblePopped)
+         StartCoroutine(PlayPopEffects());
    }
 
    private IEnumerator PlayPopEffects() {
@@ -42,5 +50,7 @@ public class BubbleColliderManager : MonoBehaviour {
       
       //Invoke event
       OnBubblePopped?.Invoke();
+      
+      _bubblePopped = true;
    }
 }

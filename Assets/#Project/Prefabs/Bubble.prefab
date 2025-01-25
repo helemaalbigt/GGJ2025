@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8672012265570430887}
+  - component: {fileID: 6842940867180379408}
   - component: {fileID: 484084777165684545}
   - component: {fileID: 8152574111748932001}
   - component: {fileID: 7448084418752105100}
@@ -38,6 +39,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6842940867180379408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2780464949165585505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a98d6fe4c4737409c0efb1a582d74e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blowForce: {fileID: 831758911207532601}
+  colliderManager: {fileID: 779768224568111494}
 --- !u!33 &484084777165684545
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -173,9 +188,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxForce: 5
   gravity: 0.03
-  drag: 0.03
   _debugWindStrength: 0
 --- !u!114 &831758911207532601
 MonoBehaviour:
@@ -191,6 +204,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouth: {fileID: 0}
   _bubbleForces: {fileID: 4514290068074546324}
+  micInputToValueCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  distanceFalloffCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxInfluenceDistance: 0.7
 --- !u!114 &779768224568111494
 MonoBehaviour:
   m_ObjectHideFlags: 0
