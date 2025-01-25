@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3087323677013237499, guid: 2144e87073c825348884d656285d94a7, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3087323677013237499, guid: 2144e87073c825348884d656285d94a7, type: 3}
       propertyPath: m_LocalScale.y
@@ -60,14 +60,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4823513341091614963, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009643782972391328, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: m_Constraints
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009643782972391328, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5276280406804501574, guid: 2144e87073c825348884d656285d94a7, type: 3}
       propertyPath: m_Name
       value: B Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5609501368617498850, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609501368617498850, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: _bubbleForces
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7122044846144054197, guid: 2144e87073c825348884d656285d94a7, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 582977817089021278, guid: 06ceb1dc1f1eceb4198ef7bda3f2908f, type: 3}
+      objectReference: {fileID: -4909277789374002350, guid: 17a6b484553503640b81eb9a04954867, type: 3}
+    - target: {fileID: 7563511731164923242, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: gravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563511731164923242, guid: 2144e87073c825348884d656285d94a7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
