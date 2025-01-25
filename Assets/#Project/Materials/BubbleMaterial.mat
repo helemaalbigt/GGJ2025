@@ -24,8 +24,10 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 6ae7166822f381f44831916241ed5de0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _FACE_SCARED
+  m_InvalidKeywords:
+  - _FACE_SAD
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -76,8 +78,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_01a58d9973be48908b804dc97d404a52_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ea72254326eac6c4d962feff319cc1fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0b174ed1414a4660b67ead1013eb416f_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7bc760b4549bd0d408c003579fe4bdd7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_12daa020d6404db39d8f142da83ee4e1_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: ce9951f7dadfe1747b35f6b1283e8a16, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_161964cdd2ba420db9070b6900a179f1_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 08bd826dfc290f142ae584e0327a747f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4877904f15834e45ae6bf8eb5094abdc_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 9f0a43fa35cc3364b97e16707b5b20eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a5180c7f141e4958910d15a78bb814ea_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 385b32c1ffa7e85458071dbff3cfb4fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_e1399c246cad4066b9f00e6b726fb8bb_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7bc760b4549bd0d408c003579fe4bdd7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -113,6 +139,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _FACE: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
