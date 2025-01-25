@@ -109,9 +109,8 @@ public class GameManager : MonoBehaviour {
         }
         bubbles.Clear();
         
-        //TODO: show highscore
-        yield return new WaitForSeconds(1f);
-
+        yield return StartCoroutine(_titleSpawner.SpawnEnd());
+        
         //Check for blow to try again
         yield return CheckForBlow();
         

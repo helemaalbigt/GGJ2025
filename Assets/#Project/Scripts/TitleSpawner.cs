@@ -44,6 +44,19 @@ public class TitleSpawner : MonoBehaviour {
         _subTitle.transform.localPosition = new Vector3(0,- 0.45f, 0);
         _subTitle.enabled = true;
     }
+    
+    public IEnumerator SpawnEnd() {
+        yield return new WaitForSeconds(1f);
+        
+        yield return StartCoroutine(SpawnString("REPLAY?", 0f));
+        
+        yield return new WaitForSeconds(1f);
+        
+        SetAllSpawnedBlowable();
+        _subTitle.text = "BLOW TO RETRY";
+        _subTitle.transform.localPosition = new Vector3(0,- 0.45f, 0);
+        _subTitle.enabled = true;
+    }
 
     public void Clear() {
         StopAllCoroutines();
@@ -65,7 +78,8 @@ public class TitleSpawner : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
             
             var spawnPos = startPos + new Vector3(i * (CharacterW + Margin), 0, 0);
-            var letter = Instantiate(GetLetterPrefab(chars[i]), _parent);
+            var prefab = GetLetterPrefab(chars[i]);
+            var letter = prefab != null ? Instantiate(prefab, _parent) : new GameObject();
             letter.transform.localPosition = spawnPos;
             var rigidBody = letter.GetComponent<Rigidbody>();
             var blowForce = letter.GetComponent<BlowForce>();
@@ -86,7 +100,7 @@ public class TitleSpawner : MonoBehaviour {
             }
         }
 
-        return _letterPrefabs[0].prefab;
+        return null;
     }
 
     private void SetAllSpawnedBlowable() {
