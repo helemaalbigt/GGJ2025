@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Android;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
 
     public event Action<State> OnStateChanged;
-    
-    private State _state;
+
+    public event Action<Bubble> OnBubbleSpawned;
+	public BubbleDescription[] bubbleDescriptions;
+
+	private State _state;
     public State state {
         get => _state;
         private set {
@@ -135,9 +139,12 @@ public class GameManager : MonoBehaviour {
         var spawnPose = GetSpawnPose();
         var firstBubble = Instantiate(_bubblePrefab, spawnPose.position, spawnPose.rotation);
         firstBubble.Setup(_head);
-        
-        bubbles.Add(firstBubble);
-    }
+
+		bubbles.Add(firstBubble);
+
+        firstBubble.bubbleDescription = bubbleDescriptions[Random.Range(0, bubbleDescriptions.Length)];
+		OnBubbleSpawned?.Invoke(firstBubble);
+	}
     
     private Pose GetSpawnPose() {
         var pos = _head.position + Vector3.ProjectOnPlane(_head.forward, Vector3.up).normalized * 0.4f + Vector3.up * 0.4f;
