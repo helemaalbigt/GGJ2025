@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: L Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3478703716814683009, guid: e114be80b6489634b84bf08a99295054, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4208259037983497566, guid: e114be80b6489634b84bf08a99295054, type: 3}
       propertyPath: m_Mesh
       value: 

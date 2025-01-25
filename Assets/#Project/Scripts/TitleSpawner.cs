@@ -8,14 +8,10 @@ public class TitleSpawner : MonoBehaviour {
     public Transform _head;
     public Transform _parent;
 
-    private List<GameObject> _spawnedLetters = new List<GameObject>();
+    private List<SpawnedLetter> _spawnedLetters = new List<SpawnedLetter>();
 
     private const float CharacterW = 0.1f;
     private const float Margin = 0.02f;
-
-    private void Start() {
-        SpawnTitle();
-    }
 
     private void Update() {
         //position parent;
@@ -27,27 +23,55 @@ public class TitleSpawner : MonoBehaviour {
         var up = Vector3.Cross(right, fwd).normalized;
         var targetRotation = Quaternion.LookRotation(fwd, up);
         _parent.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
+        
+        //position letters
+        foreach (var letter in _spawnedLetters) {
+            letter.instance.transform.localPosition = letter.targetLocalPos;
+            letter.instance.transform.localRotation = Quaternion.identity;
+        }
     }
 
-    public void SpawnTitle() {
-        SpawnString("BUBBLE", 0f);
-        SpawnString("JUGGLE", -0.23f);
+    public IEnumerator SpawnTitle() {
+        yield return StartCoroutine(SpawnString("BUBBLE", 0f));
+        yield return StartCoroutine(SpawnString("JUGGLE", -0.23f));
+        
+        for (int i = 0; i < _spawnedLetters.Count; i++) {
+            var letter = _spawnedLetters[i];
+            letter.rigidbody.isKinematic = false;
+            letter.blowForce.enabled = true;
+        }
     }
 
     public void Clear() {
-        
+        StopAllCoroutines();
+        for (int i = 0; i < _spawnedLetters.Count; i++) {
+            var letter = _spawnedLetters[i];
+            Destroy(letter.instance);
+        }
+        _spawnedLetters.Clear();
     }
     
-    private void SpawnString(string value, float vertOffset) {
+    private IEnumerator SpawnString(string value, float vertOffset) {
         var chars = value.ToCharArray();
         var totalW = chars.Length * CharacterW + (chars.Length - 1) * Margin;
         var halfW = totalW / 2f;
         var startPos = new Vector3(-halfW, vertOffset, 0);
 
         for (int i = 0; i < chars.Length; i++) {
+            yield return new WaitForSeconds(0.1f);
+            
             var spawnPos = startPos + new Vector3(i * (CharacterW + Margin), 0, 0);
             var letter = Instantiate(GetLetterPrefab(chars[i]), _parent);
             letter.transform.localPosition = spawnPos;
+            var rigidBody = letter.GetComponent<Rigidbody>();
+            var blowForce = letter.GetComponent<BlowForce>();
+            
+            _spawnedLetters.Add(new SpawnedLetter() {
+                instance = letter,
+                rigidbody = rigidBody,
+                blowForce = blowForce,
+                targetLocalPos = spawnPos
+            });
         }
     }
 
@@ -66,4 +90,11 @@ public class TitleSpawner : MonoBehaviour {
 public class LetterPrefab {
     public char key;
     public GameObject prefab;
+}
+
+public class SpawnedLetter {
+    public GameObject instance;
+    public Rigidbody rigidbody;
+    public BlowForce blowForce;
+    public Vector3 targetLocalPos;
 }

@@ -9,7 +9,10 @@ public class BubbleColliderManager : MonoBehaviour {
    public GameObject POP;
    public Renderer renderer;
 
-
+   public ParticleSystem[] particleSystems;
+   
+   
+   private Vector3 _collisionPoint;
     private bool _bubblePopped;
 
    private void OnCollisionEnter(Collision collision) {
@@ -17,20 +20,15 @@ public class BubbleColliderManager : MonoBehaviour {
             //todo: play touche surface audio
             OnBubbleTouchedSurface?.Invoke();
 
-
             // Instantiate POP effect at the point of collision
-            Vector3 collisionPoint = collision.contacts[0].point;
-            Instantiate(POP, collisionPoint, Quaternion.identity);
+            _collisionPoint = collision.contacts[0].point;
 
             StartCoroutine(PlayPopEffects());
-
-        }
+      }
    }
 
    public bool HasPopped() {
       return _bubblePopped;
-
-
    }
 
    public void ForcePopBubbleImmediate() {
@@ -47,9 +45,10 @@ public class BubbleColliderManager : MonoBehaviour {
         //todo: play audio
 
         //splash effect
-        Instantiate(POP, transform.position, Quaternion.identity);
-
-
+        foreach (var particles in particleSystems) {
+           particles.Play();
+        }
+        
         //dissolve bubble
         var popTime = 0.12f;
       var startTime = Time.unscaledTime;

@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
     [Header("Asset/Scene References")] 
     public Bubble _bubblePrefab;
     public Transform _head;
+    public TitleSpawner _titleSpawner;
 
     void Start()
     {
@@ -46,8 +47,8 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator WaitToStart() {
         state = State.waitToStart;
-        
-        //TODO: spawn title
+
+        yield return StartCoroutine(_titleSpawner.SpawnTitle());
 
         //Check for blow to start
         yield return CheckForBlow();
