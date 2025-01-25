@@ -10,8 +10,14 @@ public class BlowForce : MonoBehaviour {
     void Update()
     {
         var trigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
+        SetBlowForce(trigger);
+    }
 
-        var forwardForce = _mouth.forward * trigger;
+    /// <summary>
+    /// Set blow force for this frame. Value needs to be a value from 0 to 1
+    /// </summary>
+    public void SetBlowForce(float value) {
+        var forwardForce = _mouth.forward * value;
         var mouthToBubble = (transform.position - _mouth.position).normalized;
         var forceOnBubble = Vector3.Dot(forwardForce, mouthToBubble);
         
