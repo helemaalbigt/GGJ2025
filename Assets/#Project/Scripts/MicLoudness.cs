@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class AudioFloat2 : MonoBehaviour
+public class MicLoudness : MonoBehaviour
 {
+    public float loudness = 0f; // This will store the loudness value
+    
     private AudioSource audioSource;
     private float[] audioSamples = new float[256]; // Array to hold the audio data
-    private float loudness = 0f; // This will store the loudness value
-    public float loudnessThreshold = 0.5f; // Threshold for triggering something
 
     private const float LOW_THRESHOLD = 0.0009f; // Value below which loudness becomes 0
     private const float HIGH_THRESHOLD = 1f; // Value above which loudness becomes 1
@@ -43,6 +43,8 @@ public class AudioFloat2 : MonoBehaviour
         // Normalize the loudness between 0 and 1
         loudness = sum / audioSamples.Length;
 
+        Debug.LogError(loudness.ToString("F15"));
+        
         // Map loudness to 0 or 1 based on the thresholds
         if (loudness < LOW_THRESHOLD)
         {
@@ -52,16 +54,6 @@ public class AudioFloat2 : MonoBehaviour
         {
             loudness = 1f; // If above the threshold, set to 1
         }
-
-        // Check if the loudness exceeds the threshold and trigger action
-        if (loudness >= loudnessThreshold)
-        {
-            // Trigger some action when the threshold is reached
-            Debug.Log("Loudness has reached the threshold! Current Loudness: " + loudness);
-        }
-
-        // Optionally, display the current loudness (0 or 1)
-        Debug.Log("Current Loudness: " + loudness);
     }
 
     void OnApplicationQuit()
