@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TitleSpawner : MonoBehaviour {
     public List<LetterPrefab> _letterPrefabs;
     public Transform _head;
     public Transform _parent;
+    public TextMeshPro _subTitle;
 
     private List<SpawnedLetter> _spawnedLetters = new List<SpawnedLetter>();
 
@@ -34,12 +36,13 @@ public class TitleSpawner : MonoBehaviour {
     public IEnumerator SpawnTitle() {
         yield return StartCoroutine(SpawnString("BUBBLE", 0f));
         yield return StartCoroutine(SpawnString("JUGGLE", -0.23f));
+
+        yield return new WaitForSeconds(1f);
         
-        for (int i = 0; i < _spawnedLetters.Count; i++) {
-            var letter = _spawnedLetters[i];
-            letter.rigidbody.isKinematic = false;
-            letter.blowForce.enabled = true;
-        }
+        SetAllSpawnedBlowable();
+        _subTitle.text = "BLOW TO START";
+        _subTitle.transform.localPosition = new Vector3(0,- 0.45f, 0);
+        _subTitle.enabled = true;
     }
 
     public void Clear() {
@@ -49,6 +52,7 @@ public class TitleSpawner : MonoBehaviour {
             Destroy(letter.instance);
         }
         _spawnedLetters.Clear();
+        _subTitle.enabled = false;
     }
     
     private IEnumerator SpawnString(string value, float vertOffset) {
@@ -83,6 +87,14 @@ public class TitleSpawner : MonoBehaviour {
         }
 
         return _letterPrefabs[0].prefab;
+    }
+
+    private void SetAllSpawnedBlowable() {
+        for (int i = 0; i < _spawnedLetters.Count; i++) {
+            var letter = _spawnedLetters[i];
+            letter.rigidbody.isKinematic = false;
+            letter.blowForce.enabled = true;
+        }
     }
 }
 

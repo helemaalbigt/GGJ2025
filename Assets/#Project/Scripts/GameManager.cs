@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour {
     IEnumerator Playing() {
         state = State.playing;
         
+        //Remove title
+        _titleSpawner.Clear();
+        
         //Spawn first bubble
         bubbles.Clear();
         SpawnBubble();
