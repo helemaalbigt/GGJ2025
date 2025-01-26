@@ -85,7 +85,7 @@ public class BubbleColliderManager : MonoBehaviour {
         }
 
       //dissolve bubble
-      var popTime = 0.12f;
+      var popTime = 0.35f;
       var startTime = Time.unscaledTime;
       while (Time.unscaledTime - startTime < popTime) {
          var f = 1f - Mathf.Clamp01((Time.unscaledTime - startTime) / popTime);

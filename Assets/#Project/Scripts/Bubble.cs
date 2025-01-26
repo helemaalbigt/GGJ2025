@@ -33,6 +33,6 @@ public class Bubble : MonoBehaviour {
         var fwd = Vector3.Cross(Vector3.up, bubbleToHead).normalized; //face is on right so right needs to be fwd
         var up = Vector3.Cross(bubbleToHead, fwd).normalized;
         var targetRotation = Quaternion.LookRotation(fwd, up);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 1.5f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 4f);
     }
 }

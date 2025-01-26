@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 
 public class TitleSpawner : MonoBehaviour {
+    public event Action OnLetterSpawned;
+    
     public List<LetterPrefab> _letterPrefabs;
     public Transform _head;
     public Transform _parent;
@@ -90,6 +92,8 @@ public class TitleSpawner : MonoBehaviour {
                 blowForce = blowForce,
                 targetLocalPos = spawnPos
             });
+            
+            OnLetterSpawned?.Invoke();
         }
     }
 

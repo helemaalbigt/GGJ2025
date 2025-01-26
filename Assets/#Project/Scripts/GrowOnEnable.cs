@@ -14,12 +14,9 @@ public class GrowOnEnable : MonoBehaviour
     public float delayFactor;
 
     private Vector3 _origScale;
-
-    void Awake() {
-        _origScale = transform.localScale;
-    }
-
+    
     private void OnEnable() {
+        _origScale = transform.localScale;
         transform.localScale = new Vector3(X ? 0.01f : _origScale.x, Y ? 0.01f : _origScale.y, Z ? 0.01f : _origScale.z);
         StartCoroutine(Grow());
     }
@@ -35,15 +32,14 @@ public class GrowOnEnable : MonoBehaviour
         float delay = addDelayBasedOnIndex ? delayFactor * GetSiblingIndex() : 0;
         yield return new WaitForSeconds(delay);
 
-        Vector3 vel = Vector3.zero;
-
-        while (ContinueLerping()) {
-            transform.localScale = Vector3.SmoothDamp(transform.localScale, _origScale, ref vel, growTime);
+        var startTime = Time.unscaledTime;
+        while (Time.unscaledTime - startTime < growTime) {
+            var f = Mathf.Clamp01((Time.unscaledTime - startTime) / growTime);
+            transform.localScale = _origScale * growCurve.Evaluate(f);
             yield return null;
         }
 
         transform.localScale = _origScale;
-
     }
 
     private int GetSiblingIndex() {
@@ -53,7 +49,6 @@ public class GrowOnEnable : MonoBehaviour
                 return i;
         }
         return 0;
-        //return transform.GetSiblingIndex();
     }
 
     private bool ContinueLerping() {
