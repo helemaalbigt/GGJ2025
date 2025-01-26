@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 
 
 	public BubbleDescription[] bubbleDescriptions;
-	private List<BubbleDescription> _leftoverBubbleDescriptions;
+	public List<BubbleDescription> _leftoverBubbleDescriptions;
 
 	private State _state;
     public State state {
@@ -148,7 +148,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void SpawnBubble(bool spawnInFrontOfPlayer = false) {
+    // start at 0, all the subsequent ones will be randomized
+    int nextBubleDescriptionIndex = 0;
+
+	private void SpawnBubble(bool spawnInFrontOfPlayer = false) {
 
 		var spawnPose = GetSpawnPose(!spawnInFrontOfPlayer);
         var firstBubble = Instantiate(_bubblePrefab, spawnPose.position, spawnPose.rotation);
@@ -157,13 +160,14 @@ public class GameManager : MonoBehaviour {
 		bubbles.Add(firstBubble);
 
         // pick random description and remove it from the list so its not picked again.
-        int bubleDescriptionIndex = Random.Range(0, _leftoverBubbleDescriptions.Count);
-		firstBubble.bubbleDescription = bubbleDescriptions[bubleDescriptionIndex];
-		_leftoverBubbleDescriptions.RemoveAt(bubleDescriptionIndex);
+		firstBubble.bubbleDescription = _leftoverBubbleDescriptions[nextBubleDescriptionIndex];
+		_leftoverBubbleDescriptions.RemoveAt(nextBubleDescriptionIndex);
         // if all descriptions have been used, then just reuse all of them,
         // maybe its better to just have a max amount of bubble instead? :)
         if (_leftoverBubbleDescriptions.Count == 0)
 			_leftoverBubbleDescriptions = bubbleDescriptions.ToList();
+		// subsequent ones will be randomized
+		nextBubleDescriptionIndex = Random.Range(0, _leftoverBubbleDescriptions.Count);
 
 		OnAnyBubbleSpawned?.Invoke();
 		OnBubbleSpawned?.Invoke(firstBubble);
