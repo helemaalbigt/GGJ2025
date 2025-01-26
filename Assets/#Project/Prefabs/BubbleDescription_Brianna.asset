@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e29b608480c4294b9c73e82bdafb13b, type: 3}
+  m_Name: BubbleDescription_Brianna
+  m_EditorClassIdentifier: 
+  FirstIntroClips:
+  - {fileID: 8300000, guid: b60d9f0f71514954295ad2a66dbd97bb, type: 3}
+  NextIntroClips:
+  - {fileID: 8300000, guid: ff83a6b8fd3b23c4c892018df9991636, type: 3}
+  GreetingClips:
+  - {fileID: 8300000, guid: bf91fb89b7b20704ca0b3da6eccd5ccc, type: 3}
+  BlowedOnClips:
+  - {fileID: 8300000, guid: bf7cddb62567d054cacbcdf78636de6c, type: 3}
+  - {fileID: 8300000, guid: c7c7b1f3b2256f141baaab35c6eeb3d7, type: 3}
+  JustFloatingClips:
+  - {fileID: 8300000, guid: 7db7e3ec34d3da64c91178778d8d796c, type: 3}
+  nearDeathClips:
+  - {fileID: 8300000, guid: 5d49f5ae58230884c98034f9ff9ea95d, type: 3}
+  AboutToPopClips:
+  - {fileID: 8300000, guid: efc01633743aee34ca731c7addca329a, type: 3}
+  PopClips:
+  - {fileID: 8300000, guid: b354870a57a25e84f96e503940643936, type: 3}
+  GameOverReactionClips:
+  - {fileID: 8300000, guid: da1e9ea605c524748b56cd40ddc392b2, type: 3}
