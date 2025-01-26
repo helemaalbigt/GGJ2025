@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 67278378}
   SpeakInterval: 3
-  SpeakIntervalRandom: 3
+  SpeakIntervalRandom: 2
 --- !u!1 &1452983333
 GameObject:
   m_ObjectHideFlags: 0

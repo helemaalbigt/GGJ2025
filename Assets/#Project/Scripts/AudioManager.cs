@@ -80,10 +80,13 @@ public class AudioManager : MonoBehaviour
             _bubbleInDistress = true; 
             PlayRandomClip(bubble, bubble.bubbleDescription.nearDeathClips, true); 
         };
+
+		// blowed on bubble
+		bubble.blowForce.OnBubbleBlowedUpon += () => { PlayRandomClip(bubble, bubble.bubbleDescription.BlowedOnClips, true); };
 		// about to pop
-		bubble.colliderManager.OnBubbleTouchedSurface += () => { PlayRandomClip(bubble, bubble.bubbleDescription.AboutToPopClips); };
+		bubble.colliderManager.OnBubbleTouchedSurface += () => { PlayRandomClip(bubble, bubble.bubbleDescription.AboutToPopClips, true); };
 		//pop
-		bubble.colliderManager.OnBubblePopped += () => { PlayRandomClip(bubble, bubble.bubbleDescription.PopClips); };
+		bubble.colliderManager.OnBubblePopped += () => { PlayRandomClip(bubble, bubble.bubbleDescription.PopClips, true); };
 
 	}
 

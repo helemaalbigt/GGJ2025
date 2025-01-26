@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,11 @@ public class BlowForce : MonoBehaviour {
     private const float MicMin = 0.0000001f;
     private const float MicMax = 0.01f;
 
-    public void Setup(Transform head) {
+	public event Action OnBubbleBlowedUpon;
+
+    public Bubble bubble;
+
+	public void Setup(Transform head) {
         _mouth = head;
     }
     
@@ -51,5 +56,12 @@ public class BlowForce : MonoBehaviour {
         Debug.DrawLine(_mouth.position, _mouth.position + mouthToBubble * forceOnBubble);
         
         _bubbleForces.ApplyForce(mouthToBubble, forceOnBubble);
-    }
+
+
+		if(!bubble.IsTalking && forceOnBubble > 0.1f) 
+        {
+            OnBubbleBlowedUpon?.Invoke();
+		}
+
+	}
 }

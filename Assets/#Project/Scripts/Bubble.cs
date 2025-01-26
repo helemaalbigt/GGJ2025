@@ -22,6 +22,7 @@ public class Bubble : MonoBehaviour {
         _head = head;
         
         blowForce.Setup(_head);
+        blowForce.bubble = this;
     }
 
     void Update() {
