@@ -5,7 +5,7 @@ public class TextureSwitcher : MonoBehaviour
     public AudioSource audioSource;    // Reference to the AudioSource
     public Texture textureWhenPlaying; // Texture to apply when the audio is playing
     public Texture textureWhenNotPlaying; // Texture to apply when the audio is not playing
-    public float switchInterval = 3f;  // Interval in seconds between texture swaps
+    public float switchInterval = .1f;  // Interval in seconds between texture swaps
 
     private Renderer objectRenderer; 
     private float timer = 0f;        
