@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour {
     public Transform _head;
     public TitleSpawner _titleSpawner;
 
+    private float _startTime;
+    
     void Start()
     {
         _leftoverBubbleDescriptions = bubbleDescriptions.ToList();
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator Playing() {
         state = State.playing;
+
+        _startTime = Time.unscaledTime;
         
         //Remove title
         _titleSpawner.Clear();
@@ -101,7 +105,9 @@ public class GameManager : MonoBehaviour {
     IEnumerator GameOver() {
         state = State.gameOver;
 
-		// wait untill all bubbles are done talking
+        var playtime = Time.unscaledTime - _startTime;
+
+        // wait untill all bubbles are done talking
 		while (IsAnyBubbleTalking())
             yield return null;
 
@@ -119,7 +125,7 @@ public class GameManager : MonoBehaviour {
         }
         bubbles.Clear();
         
-        yield return StartCoroutine(_titleSpawner.SpawnEnd());
+        yield return StartCoroutine(_titleSpawner.SpawnEnd(playtime));
         
         //Check for blow to try again
         yield return CheckForBlow();

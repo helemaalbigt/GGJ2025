@@ -47,15 +47,23 @@ public class TitleSpawner : MonoBehaviour {
         _subTitle.enabled = true;
     }
     
-    public IEnumerator SpawnEnd() {
+    public IEnumerator SpawnEnd(float seconds) {
         yield return new WaitForSeconds(1f);
-        
+
         yield return StartCoroutine(SpawnString("REPLAY?", 0f));
         
         yield return new WaitForSeconds(1f);
         
+        TimeSpan timeSpan = TimeSpan.FromSeconds((double)seconds);
+        var formattedTimeSpan ="";
+        if (timeSpan.Minutes == 0) {
+            formattedTimeSpan = string.Format("{0:D2} seconds", timeSpan.Seconds);
+        } else {
+            formattedTimeSpan = string.Format("{0:D2} minutes, {1:D2} seconds", timeSpan.Minutes, timeSpan.Seconds);
+        }
+        
         SetAllSpawnedBlowable();
-        _subTitle.text = "BLOW TO RETRY";
+        _subTitle.text = $"You juggled bubbles for {formattedTimeSpan}! \n\nBLOW TO RETRY";
         _subTitle.transform.localPosition = new Vector3(0,- 0.45f, 0);
         _subTitle.enabled = true;
     }
