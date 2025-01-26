@@ -92,6 +92,9 @@ public class AudioManager : MonoBehaviour
 
 	private void PlayRandomClip(Bubble bubble, AudioClip[] clips, bool interrupCurrentClip = false)
 	{
+		if (bubble.colliderManager.HasPopped())
+			return;
+
 		int randomIndex = Random.Range(0, clips.Length);
         if(interrupCurrentClip)
     		bubble.audioSource.Stop();
