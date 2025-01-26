@@ -85,7 +85,11 @@ public class TitleSpawner : MonoBehaviour {
             letter.transform.localPosition = spawnPos;
             var rigidBody = letter.GetComponent<Rigidbody>();
             var blowForce = letter.GetComponent<BlowForce>();
-            
+
+            var audioSource = letter.GetComponent<AudioSource>();
+            audioSource.pitch = UnityEngine.Random.Range(.8f, 1.2f);
+            //audioSource.pitch = 1 + (float)i * .1f;
+
             _spawnedLetters.Add(new SpawnedLetter() {
                 instance = letter,
                 rigidbody = rigidBody,
